@@ -1,0 +1,5 @@
+build/
+build-test/
+xcuserdata/
+*.xccheckout
+*.gcno
