@@ -1,7 +1,23 @@
 # CustomizableActionSheet
+![Platform](https://cocoapod-badges.herokuapp.com/p/CustomizableActionSheet/badge.svg)
+![License](https://img.shields.io/cocoapods/l/CustomizableActionSheet.svg?style=flat)
+![Cocoapods](https://cocoapod-badges.herokuapp.com/v/CustomizableActionSheet/badge.svg)
+
 Action sheet allows including your custom views and buttons.
 
 ![screenshot1](./assets/screenshot1.png)
+
+## Installation
+
+### CocoaPods
+
+```
+pod 'CustomizableActionSheet'
+```
+
+### Manually
+
+Add the [CustomizableActionSheet.swift](https://github.com/beryu/CustomizableActionSheet/blob/master/Source/CustomizableActionSheet.swift) file to your project.
 
 ## Usage
 ```
