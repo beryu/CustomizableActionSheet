@@ -18,7 +18,7 @@ class CustomizableActionSheetItem: NSObject {
     
     // MARK: - Internal properties
     var type: CustomizableActionSheetItemType = .Button
-    var height: CGFloat = 30
+    var height: CGFloat = 44
     
     // type = .View
     var view: UIView?
@@ -88,27 +88,24 @@ class CustomizableActionSheet: NSObject {
     private let itemContainerView = UIView()
     private var closeBlock: (() -> Void)?
     
-    class func showInView(targetView: UIView, items: [CustomizableActionSheetItem], closeBlock: (() -> Void)? = nil) {
-        // Make instance to show action sheet
-        let actionSheet = CustomizableActionSheet()
-        
+    func showInView(targetView: UIView, items: [CustomizableActionSheetItem], closeBlock: (() -> Void)? = nil) {
         // Save instance to reaction until closing this sheet
-        CustomizableActionSheet.actionSheets.append(actionSheet)
+        CustomizableActionSheet.actionSheets.append(self)
         
         let screenBounds = UIScreen.mainScreen().bounds
         
         // Save closeBlock
-        actionSheet.closeBlock = closeBlock
+        self.closeBlock = closeBlock
         
         // mask view
-        let maskViewTapGesture = UITapGestureRecognizer(target: actionSheet, action: "maskViewWasTapped")
-        actionSheet.maskView.addGestureRecognizer(maskViewTapGesture)
-        actionSheet.maskView.frame = screenBounds
-        actionSheet.maskView.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.7)
-        targetView.addSubview(actionSheet.maskView)
+        let maskViewTapGesture = UITapGestureRecognizer(target: self, action: "maskViewWasTapped")
+        self.maskView.addGestureRecognizer(maskViewTapGesture)
+        self.maskView.frame = screenBounds
+        self.maskView.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.5)
+        targetView.addSubview(self.maskView)
         
         // set items
-        for subview in actionSheet.itemContainerView.subviews {
+        for subview in self.itemContainerView.subviews {
             subview.removeFromSuperview()
         }
         var currentPosition: CGFloat = 0
@@ -129,10 +126,10 @@ class CustomizableActionSheet: NSObject {
                     button.titleLabel?.font = font
                 }
                 if let _ = item.selectAction {
-                    button.addGestureRecognizer(UITapGestureRecognizer(target: actionSheet, action: "buttonWasTapped:"))
+                    button.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "buttonWasTapped:"))
                 }
                 item.element = button
-                actionSheet.itemContainerView.addSubview(button)
+                self.itemContainerView.addSubview(button)
                 currentPosition = currentPosition + item.height + CustomizableActionSheet.kMarginBottom
             case .View:
                 if let view = item.view {
@@ -144,30 +141,30 @@ class CustomizableActionSheet: NSObject {
                     containerView.layer.cornerRadius = CustomizableActionSheet.kCornerRadius
                     containerView.addSubview(view)
                     view.frame = view.bounds
-                    actionSheet.itemContainerView.addSubview(containerView)
+                    self.itemContainerView.addSubview(containerView)
                     item.element = view
                     currentPosition = currentPosition + item.height + CustomizableActionSheet.kMarginBottom
                 }
             }
         }
-        actionSheet.itemContainerView.frame = CGRectMake(
+        self.itemContainerView.frame = CGRectMake(
             0,
             screenBounds.height - currentPosition,
             screenBounds.width,
             currentPosition)
-        actionSheet.items = items
+        self.items = items
         
         // Show animation
-        actionSheet.maskView.alpha = 0
-        targetView.addSubview(actionSheet.itemContainerView)
-        let moveY = screenBounds.height - actionSheet.itemContainerView.frame.origin.y
-        actionSheet.itemContainerView.transform = CGAffineTransformMakeTranslation(0, moveY)
-        UIView.animateWithDuration(0.15,
+        self.maskView.alpha = 0
+        targetView.addSubview(self.itemContainerView)
+        let moveY = screenBounds.height - self.itemContainerView.frame.origin.y
+        self.itemContainerView.transform = CGAffineTransformMakeTranslation(0, moveY)
+        UIView.animateWithDuration(0.25,
             delay: 0,
             options: .CurveEaseOut,
             animations: { () -> Void in
-                actionSheet.maskView.alpha = 1
-                actionSheet.itemContainerView.transform = CGAffineTransformIdentity
+                self.maskView.alpha = 1
+                self.itemContainerView.transform = CGAffineTransformIdentity
             }, completion: nil)
     }
     
@@ -175,7 +172,7 @@ class CustomizableActionSheet: NSObject {
         // Hide animation
         self.maskView.alpha = 1
         let moveY = UIScreen.mainScreen().bounds.height - self.itemContainerView.frame.origin.y
-        UIView.animateWithDuration(0.15,
+        UIView.animateWithDuration(0.25,
             delay: 0,
             options: .CurveEaseOut,
             animations: { () -> Void in

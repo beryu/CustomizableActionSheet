@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
@@ -18,8 +18,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Vm-1d-32x">
-                                <rect key="frame" x="254" y="285" width="92" height="30"/>
-                                <state key="normal" title="Show actions"/>
+                                <rect key="frame" x="150" y="278" width="300" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="oHm-TU-gl6"/>
+                                    <constraint firstAttribute="width" constant="300" id="yjW-Mq-kaH"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <state key="normal" title="Select color"/>
                                 <connections>
                                     <action selector="buttonShowWasTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="cU5-uJ-F8M"/>
                                 </connections>
@@ -27,8 +32,8 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="3Vm-1d-32x" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="0w9-5m-Coo"/>
-                            <constraint firstItem="3Vm-1d-32x" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="Zo6-sc-NG7"/>
+                            <constraint firstItem="3Vm-1d-32x" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="RZu-15-nBG"/>
+                            <constraint firstItem="3Vm-1d-32x" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="bZd-tU-npe"/>
                         </constraints>
                     </view>
                 </viewController>
