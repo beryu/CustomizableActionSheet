@@ -25,7 +25,7 @@ public class CustomizableActionSheetItem: NSObject {
   
   // type = .Button
   public var label: String?
-  public var textColor: UIColor = UIColor(red: 0, green: 122, blue: 255, alpha: 1.0)
+  public var textColor: UIColor = UIColor(red: 0, green: 0.47, blue: 1.0, alpha: 1.0)
   public var backgroundColor: UIColor = UIColor.whiteColor()
   public var font: UIFont? = nil
   public var selectAction: ((actoinSheet: CustomizableActionSheet) -> Void)? = nil
