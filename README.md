@@ -20,6 +20,7 @@ pod 'CustomizableActionSheet'
 Add the [CustomizableActionSheet.swift](https://github.com/beryu/CustomizableActionSheet/blob/master/Source/CustomizableActionSheet.swift) file to your project.
 
 ## Usage
+
 ```
 var items = [CustomizableActionSheetItem]()
 
@@ -44,6 +45,12 @@ items.append(closeItem)
 // Show
 let actionSheet = CustomizableActionSheet()
 actionSheet.showInView(self.view, items: items)
+```
+
+NOTE: If you have installed via CocoaPods, please import `CustomizableActionSheet` like below.
+
+```
+import CustomizableActionSheet
 ```
 
 ## Requirements
