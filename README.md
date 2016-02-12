@@ -1,7 +1,7 @@
 # CustomizableActionSheet
 ![Platform](https://cocoapod-badges.herokuapp.com/p/CustomizableActionSheet/badge.svg)
 ![License](https://img.shields.io/cocoapods/l/CustomizableActionSheet.svg?style=flat)
-![Cocoapods](https://cocoapod-badges.herokuapp.com/v/CustomizableActionSheet/badge.svg)
+![CocoaPods](https://cocoapod-badges.herokuapp.com/v/CustomizableActionSheet/badge.svg)
 
 Action sheet allows including your custom views and buttons.
 
