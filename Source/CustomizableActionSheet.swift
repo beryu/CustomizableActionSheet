@@ -3,7 +3,7 @@
 //  CustomizableActionSheet
 //
 //  Created by Ryuta Kibe on 2015/12/22.
-//  Copyright © 2015年 blk. All rights reserved.
+//  Copyright 2015 blk. All rights reserved.
 //
 
 import UIKit
