@@ -11,7 +11,7 @@ Action sheet allows including your custom views and buttons.
 
 ### CocoaPods
 
-```
+```ruby
 pod 'CustomizableActionSheet'
 ```
 
@@ -21,7 +21,7 @@ Add the [CustomizableActionSheet.swift](https://github.com/beryu/CustomizableAct
 
 ## Usage
 
-```
+```swift
 var items = [CustomizableActionSheetItem]()
 
 // Setup custom view
@@ -49,7 +49,7 @@ actionSheet.showInView(self.view, items: items)
 
 NOTE: If you have installed via CocoaPods, please import `CustomizableActionSheet` like below.
 
-```
+```swift
 import CustomizableActionSheet
 ```
 
