@@ -3,7 +3,7 @@
 //  CustomizableActionSheet
 //
 //  Created by Ryuta Kibe on 2015/12/22.
-//  Copyright © 2015年 blk. All rights reserved.
+//  Copyright 2015 blk. All rights reserved.
 //
 
 import UIKit
@@ -101,7 +101,7 @@ public class CustomizableActionSheet: NSObject {
     self.closeBlock = closeBlock
     
     // mask view
-    let maskViewTapGesture = UITapGestureRecognizer(target: self, action: "maskViewWasTapped")
+    let maskViewTapGesture = UITapGestureRecognizer(target: self, action: #selector(CustomizableActionSheet.maskViewWasTapped))
     self.maskView.addGestureRecognizer(maskViewTapGesture)
     self.maskView.frame = screenBounds
     self.maskView.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.5)
@@ -129,7 +129,7 @@ public class CustomizableActionSheet: NSObject {
           button.titleLabel?.font = font
         }
         if let _ = item.selectAction {
-          button.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "buttonWasTapped:"))
+          button.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(CustomizableActionSheet.buttonWasTapped(_:))))
         }
         item.element = button
         self.itemContainerView.addSubview(button)
@@ -187,7 +187,7 @@ public class CustomizableActionSheet: NSObject {
         self.maskView.removeFromSuperview()
         
         // Remove this instance
-        for var i = 0, length = CustomizableActionSheet.actionSheets.count; i < length; i++ {
+        for i in 0 ..< CustomizableActionSheet.actionSheets.count {
           if CustomizableActionSheet.actionSheets[i] == self {
             CustomizableActionSheet.actionSheets.removeAtIndex(i)
             break
