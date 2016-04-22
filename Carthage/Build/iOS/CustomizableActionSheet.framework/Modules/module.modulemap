@@ -1,0 +1,10 @@
+framework module CustomizableActionSheet {
+  umbrella header "CustomizableActionSheet.h"
+
+  export *
+  module * { export * }
+}
+
+module CustomizableActionSheet.Swift {
+    header "CustomizableActionSheet-Swift.h"
+}
