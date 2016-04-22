@@ -2,6 +2,7 @@
 ![Platform](https://cocoapod-badges.herokuapp.com/p/CustomizableActionSheet/badge.svg)
 ![License](https://img.shields.io/cocoapods/l/CustomizableActionSheet.svg?style=flat)
 ![CocoaPods](https://cocoapod-badges.herokuapp.com/v/CustomizableActionSheet/badge.svg)
+[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 
 Action sheet allows including your custom views and buttons.
 
@@ -11,9 +12,25 @@ Action sheet allows including your custom views and buttons.
 
 ### CocoaPods
 
-```ruby
-pod 'CustomizableActionSheet'
-```
+1. Edit your Podfile:
+
+	```ruby
+	pod 'CustomizableActionSheet'
+	```
+
+2. Run `pod install`
+
+####Carthage
+
+1. Edit your Cartfile:
+
+	```
+	github "beryu/CustomizableActionSheet"
+	```
+
+2. Run `carthage update`
+
+for more info, see [Carthage](https://github.com/carthage/carthage)
 
 ### Manually
 
