@@ -7,18 +7,44 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		878324191C28DC3C00F4C5EC /* CustomizableActionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878324181C28DC3C00F4C5EC /* CustomizableActionSheet.swift */; };
 		87B8409D1C27F3C100C84DCE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87B8409C1C27F3C100C84DCE /* AppDelegate.swift */; };
 		87B8409F1C27F3C100C84DCE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87B8409E1C27F3C100C84DCE /* ViewController.swift */; };
 		87B840A21C27F3C100C84DCE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 87B840A01C27F3C100C84DCE /* Main.storyboard */; };
 		87B840A41C27F3C100C84DCE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 87B840A31C27F3C100C84DCE /* Assets.xcassets */; };
 		87B840A71C27F3C100C84DCE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 87B840A51C27F3C100C84DCE /* LaunchScreen.storyboard */; };
+		8830B4F61CCA77D900A9CD27 /* CustomizableActionSheet-iOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 8830B4F51CCA77D900A9CD27 /* CustomizableActionSheet-iOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8830B4FA1CCA77D900A9CD27 /* CustomizableActionSheetiOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8830B4F31CCA77D900A9CD27 /* CustomizableActionSheetiOS.framework */; };
+		8830B4FB1CCA77D900A9CD27 /* CustomizableActionSheetiOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8830B4F31CCA77D900A9CD27 /* CustomizableActionSheetiOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		8830B5011CCA77E600A9CD27 /* CustomizableActionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8830B5001CCA77E600A9CD27 /* CustomizableActionSheet.swift */; };
 		88FFDA211C30269D00FCBFF3 /* SampleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 88FFDA201C30269D00FCBFF3 /* SampleView.xib */; };
 		88FFDA231C3031F200FCBFF3 /* SampleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88FFDA221C3031F200FCBFF3 /* SampleView.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		8830B4F81CCA77D900A9CD27 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 87B840911C27F3C100C84DCE /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8830B4F21CCA77D900A9CD27;
+			remoteInfo = "CustomizableActionSheet-iOS";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		8830B4FF1CCA77D900A9CD27 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				8830B4FB1CCA77D900A9CD27 /* CustomizableActionSheetiOS.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
-		878324181C28DC3C00F4C5EC /* CustomizableActionSheet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomizableActionSheet.swift; sourceTree = "<group>"; };
 		87B840991C27F3C100C84DCE /* CustomizableActionSheet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CustomizableActionSheet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		87B8409C1C27F3C100C84DCE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		87B8409E1C27F3C100C84DCE /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -26,12 +52,24 @@
 		87B840A31C27F3C100C84DCE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		87B840A61C27F3C100C84DCE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		87B840A81C27F3C100C84DCE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8830B4F31CCA77D900A9CD27 /* CustomizableActionSheetiOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CustomizableActionSheetiOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8830B4F51CCA77D900A9CD27 /* CustomizableActionSheet-iOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CustomizableActionSheet-iOS.h"; sourceTree = "<group>"; };
+		8830B4F71CCA77D900A9CD27 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8830B5001CCA77E600A9CD27 /* CustomizableActionSheet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomizableActionSheet.swift; sourceTree = "<group>"; };
 		88FFDA201C30269D00FCBFF3 /* SampleView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SampleView.xib; sourceTree = "<group>"; };
 		88FFDA221C3031F200FCBFF3 /* SampleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SampleView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		87B840961C27F3C100C84DCE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8830B4FA1CCA77D900A9CD27 /* CustomizableActionSheetiOS.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8830B4EF1CCA77D900A9CD27 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -45,6 +83,7 @@
 			isa = PBXGroup;
 			children = (
 				87B8409B1C27F3C100C84DCE /* CustomizableActionSheet */,
+				8830B4F41CCA77D900A9CD27 /* CustomizableActionSheet-iOS */,
 				87B8409A1C27F3C100C84DCE /* Products */,
 			);
 			sourceTree = "<group>";
@@ -53,6 +92,7 @@
 			isa = PBXGroup;
 			children = (
 				87B840991C27F3C100C84DCE /* CustomizableActionSheet.app */,
+				8830B4F31CCA77D900A9CD27 /* CustomizableActionSheetiOS.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -68,12 +108,32 @@
 				87B840A81C27F3C100C84DCE /* Info.plist */,
 				88FFDA201C30269D00FCBFF3 /* SampleView.xib */,
 				88FFDA221C3031F200FCBFF3 /* SampleView.swift */,
-				878324181C28DC3C00F4C5EC /* CustomizableActionSheet.swift */,
 			);
 			path = CustomizableActionSheet;
 			sourceTree = "<group>";
 		};
+		8830B4F41CCA77D900A9CD27 /* CustomizableActionSheet-iOS */ = {
+			isa = PBXGroup;
+			children = (
+				8830B5001CCA77E600A9CD27 /* CustomizableActionSheet.swift */,
+				8830B4F51CCA77D900A9CD27 /* CustomizableActionSheet-iOS.h */,
+				8830B4F71CCA77D900A9CD27 /* Info.plist */,
+			);
+			path = "CustomizableActionSheet-iOS";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		8830B4F01CCA77D900A9CD27 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8830B4F61CCA77D900A9CD27 /* CustomizableActionSheet-iOS.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
 		87B840981C27F3C100C84DCE /* CustomizableActionSheet */ = {
@@ -83,15 +143,35 @@
 				87B840951C27F3C100C84DCE /* Sources */,
 				87B840961C27F3C100C84DCE /* Frameworks */,
 				87B840971C27F3C100C84DCE /* Resources */,
+				8830B4FF1CCA77D900A9CD27 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				8830B4F91CCA77D900A9CD27 /* PBXTargetDependency */,
 			);
 			name = CustomizableActionSheet;
 			productName = CustomizableActionSheet;
 			productReference = 87B840991C27F3C100C84DCE /* CustomizableActionSheet.app */;
 			productType = "com.apple.product-type.application";
+		};
+		8830B4F21CCA77D900A9CD27 /* CustomizableActionSheet-iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8830B4FE1CCA77D900A9CD27 /* Build configuration list for PBXNativeTarget "CustomizableActionSheet-iOS" */;
+			buildPhases = (
+				8830B4EE1CCA77D900A9CD27 /* Sources */,
+				8830B4EF1CCA77D900A9CD27 /* Frameworks */,
+				8830B4F01CCA77D900A9CD27 /* Headers */,
+				8830B4F11CCA77D900A9CD27 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "CustomizableActionSheet-iOS";
+			productName = "CustomizableActionSheet-iOS";
+			productReference = 8830B4F31CCA77D900A9CD27 /* CustomizableActionSheetiOS.framework */;
+			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
 
@@ -99,12 +179,15 @@
 		87B840911C27F3C100C84DCE /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0720;
+				LastSwiftUpdateCheck = 0730;
 				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = blk;
 				TargetAttributes = {
 					87B840981C27F3C100C84DCE = {
 						CreatedOnToolsVersion = 7.2;
+					};
+					8830B4F21CCA77D900A9CD27 = {
+						CreatedOnToolsVersion = 7.3;
 					};
 				};
 			};
@@ -122,6 +205,7 @@
 			projectRoot = "";
 			targets = (
 				87B840981C27F3C100C84DCE /* CustomizableActionSheet */,
+				8830B4F21CCA77D900A9CD27 /* CustomizableActionSheet-iOS */,
 			);
 		};
 /* End PBXProject section */
@@ -138,6 +222,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		8830B4F11CCA77D900A9CD27 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -146,13 +237,28 @@
 			buildActionMask = 2147483647;
 			files = (
 				88FFDA231C3031F200FCBFF3 /* SampleView.swift in Sources */,
-				878324191C28DC3C00F4C5EC /* CustomizableActionSheet.swift in Sources */,
 				87B8409F1C27F3C100C84DCE /* ViewController.swift in Sources */,
 				87B8409D1C27F3C100C84DCE /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		8830B4EE1CCA77D900A9CD27 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8830B5011CCA77E600A9CD27 /* CustomizableActionSheet.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		8830B4F91CCA77D900A9CD27 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8830B4F21CCA77D900A9CD27 /* CustomizableActionSheet-iOS */;
+			targetProxy = 8830B4F81CCA77D900A9CD27 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		87B840A01C27F3C100C84DCE /* Main.storyboard */ = {
@@ -260,6 +366,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = CustomizableActionSheet/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -273,11 +380,59 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = CustomizableActionSheet/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = jp.blk.CustomizableActionSheet;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		8830B4FC1CCA77D900A9CD27 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "CustomizableActionSheet-iOS/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "jp.blk.CustomizableActionSheet-iOS";
+				PRODUCT_NAME = CustomizableActionSheetiOS;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		8830B4FD1CCA77D900A9CD27 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "CustomizableActionSheet-iOS/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "jp.blk.CustomizableActionSheet-iOS";
+				PRODUCT_NAME = CustomizableActionSheetiOS;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
 			};
 			name = Release;
 		};
@@ -298,6 +453,15 @@
 			buildConfigurations = (
 				87B840AC1C27F3C100C84DCE /* Debug */,
 				87B840AD1C27F3C100C84DCE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8830B4FE1CCA77D900A9CD27 /* Build configuration list for PBXNativeTarget "CustomizableActionSheet-iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8830B4FC1CCA77D900A9CD27 /* Debug */,
+				8830B4FD1CCA77D900A9CD27 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
