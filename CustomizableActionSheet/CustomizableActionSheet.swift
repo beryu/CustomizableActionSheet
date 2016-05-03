@@ -162,8 +162,10 @@ public class CustomizableActionSheet: NSObject {
     targetView.addSubview(self.itemContainerView)
     let moveY = screenBounds.height - self.itemContainerView.frame.origin.y
     self.itemContainerView.transform = CGAffineTransformMakeTranslation(0, moveY)
-    UIView.animateWithDuration(0.25,
+    UIView.animateWithDuration(0.4,
       delay: 0,
+      usingSpringWithDamping: 1,
+      initialSpringVelocity: 0,
       options: .CurveEaseOut,
       animations: { () -> Void in
         self.maskView.alpha = 1
@@ -175,8 +177,10 @@ public class CustomizableActionSheet: NSObject {
     // Hide animation
     self.maskView.alpha = 1
     let moveY = UIScreen.mainScreen().bounds.height - self.itemContainerView.frame.origin.y
-    UIView.animateWithDuration(0.25,
+    UIView.animateWithDuration(0.2,
       delay: 0,
+      usingSpringWithDamping: 1,
+      initialSpringVelocity: 0,
       options: .CurveEaseOut,
       animations: { () -> Void in
         self.maskView.alpha = 0
