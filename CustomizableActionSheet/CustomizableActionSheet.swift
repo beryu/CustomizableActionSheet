@@ -9,15 +9,15 @@
 import UIKit
 
 @objc public enum CustomizableActionSheetItemType: Int {
-  case Button
-  case View
+  case button
+  case view
 }
 
 // Can't define CustomizableActionSheetItem as struct because Obj-C can't see struct definition.
 public class CustomizableActionSheetItem: NSObject {
 
   // MARK: - Public properties
-  public var type: CustomizableActionSheetItemType = .Button
+  public var type: CustomizableActionSheetItemType = .button
   public var height: CGFloat = 44
 
   // type = .View
@@ -26,12 +26,12 @@ public class CustomizableActionSheetItem: NSObject {
   // type = .Button
   public var label: String?
   public var textColor: UIColor = UIColor(red: 0, green: 0.47, blue: 1.0, alpha: 1.0)
-  public var backgroundColor: UIColor = UIColor.whiteColor()
+  public var backgroundColor: UIColor = UIColor.white
   public var font: UIFont? = nil
-  public var selectAction: ((actoinSheet: CustomizableActionSheet) -> Void)? = nil
+  public var selectAction: ((_ actionSheet: CustomizableActionSheet) -> Void)? = nil
 
   // MARK: - Private properties
-  private var element: UIView? = nil
+  fileprivate var element: UIView? = nil
 
   convenience init(type: CustomizableActionSheetItemType, height: CGFloat) {
     self.init()
@@ -63,7 +63,7 @@ private class ActionSheetItemView: UIView {
     self.clipsToBounds = true
   }
 
-  override func addSubview(view: UIView) {
+  override func addSubview(_ view: UIView) {
     super.addSubview(view)
     self.subview = view
   }
@@ -92,11 +92,11 @@ public class CustomizableActionSheet: NSObject {
 
   // MARK: - Public properties
 
-  public func showInView(targetView: UIView, items: [CustomizableActionSheetItem], closeBlock: (() -> Void)? = nil) {
+  public func showInView(_ targetView: UIView, items: [CustomizableActionSheetItem], closeBlock: (() -> Void)? = nil) {
     // Save instance to reaction until closing this sheet
     CustomizableActionSheet.actionSheets.append(self)
 
-    let screenBounds = UIScreen.mainScreen().bounds
+    let screenBounds = UIScreen.main.bounds
 
     // Save closeBlock
     self.closeBlock = closeBlock
@@ -135,17 +135,17 @@ public class CustomizableActionSheet: NSObject {
 
       // Add views
       switch (item.type) {
-      case .Button:
+      case .button:
         let button = UIButton()
         button.layer.cornerRadius = CustomizableActionSheet.kCornerRadius
-        button.frame = CGRectMake(
-          CustomizableActionSheet.kMarginSide,
-          currentPosition,
-          screenBounds.width - (CustomizableActionSheet.kMarginSide * 2),
-          item.height)
-        button.setTitle(item.label, forState: .Normal)
+        button.frame = CGRect(
+          x: CustomizableActionSheet.kMarginSide,
+          y: currentPosition,
+          width: screenBounds.width - (CustomizableActionSheet.kMarginSide * 2),
+          height: item.height)
+        button.setTitle(item.label, for: UIControlState())
         button.backgroundColor = item.backgroundColor
-        button.setTitleColor(item.textColor, forState: .Normal)
+        button.setTitleColor(item.textColor, for: UIControlState())
         if let font = item.font {
           button.titleLabel?.font = font
         }
@@ -155,13 +155,13 @@ public class CustomizableActionSheet: NSObject {
         item.element = button
         self.itemContainerView.addSubview(button)
         currentPosition = currentPosition + item.height + CustomizableActionSheet.kMarginBottom
-      case .View:
+      case .view:
         if let view = item.view {
-          let containerView = ActionSheetItemView(frame: CGRectMake(
-            CustomizableActionSheet.kMarginSide,
-            currentPosition,
-            screenBounds.width - (CustomizableActionSheet.kMarginSide * 2),
-            item.height))
+          let containerView = ActionSheetItemView(frame: CGRect(
+            x: CustomizableActionSheet.kMarginSide,
+            y: currentPosition,
+            width: screenBounds.width - (CustomizableActionSheet.kMarginSide * 2),
+            height: item.height))
           containerView.layer.cornerRadius = CustomizableActionSheet.kCornerRadius
           containerView.addSubview(view)
           view.frame = view.bounds
@@ -171,41 +171,41 @@ public class CustomizableActionSheet: NSObject {
         }
       }
     }
-    self.itemContainerView.frame = CGRectMake(
-      0,
-      screenBounds.height - currentPosition,
-      screenBounds.width,
-      currentPosition)
+    self.itemContainerView.frame = CGRect(
+      x: 0,
+      y: screenBounds.height - currentPosition,
+      width: screenBounds.width,
+      height: currentPosition)
     self.items = items
 
     // Show animation
     self.maskView.alpha = 0
     targetView.addSubview(self.itemContainerView)
     let moveY = screenBounds.height - self.itemContainerView.frame.origin.y
-    self.itemContainerView.transform = CGAffineTransformMakeTranslation(0, moveY)
-    UIView.animateWithDuration(0.4,
+    self.itemContainerView.transform = CGAffineTransform(translationX: 0, y: moveY)
+    UIView.animate(withDuration: 0.4,
       delay: 0,
       usingSpringWithDamping: 1,
       initialSpringVelocity: 0,
-      options: .CurveEaseOut,
+      options: .curveEaseOut,
       animations: { () -> Void in
         self.maskView.alpha = 1
-        self.itemContainerView.transform = CGAffineTransformIdentity
+        self.itemContainerView.transform = CGAffineTransform.identity
       }, completion: nil)
   }
 
   public func dismiss() {
     // Hide animation
     self.maskView.alpha = 1
-    let moveY = UIScreen.mainScreen().bounds.height - self.itemContainerView.frame.origin.y
-    UIView.animateWithDuration(0.2,
+    let moveY = UIScreen.main.bounds.height - self.itemContainerView.frame.origin.y
+    UIView.animate(withDuration: 0.2,
       delay: 0,
       usingSpringWithDamping: 1,
       initialSpringVelocity: 0,
-      options: .CurveEaseOut,
+      options: .curveEaseOut,
       animations: { () -> Void in
         self.maskView.alpha = 0
-        self.itemContainerView.transform = CGAffineTransformMakeTranslation(0, moveY)
+        self.itemContainerView.transform = CGAffineTransform(translationX: 0, y: moveY)
       }) { (result: Bool) -> Void in
         // Remove views
         self.itemContainerView.removeFromSuperview()
@@ -214,7 +214,7 @@ public class CustomizableActionSheet: NSObject {
         // Remove this instance
         for i in 0 ..< CustomizableActionSheet.actionSheets.count {
           if CustomizableActionSheet.actionSheets[i] == self {
-            CustomizableActionSheet.actionSheets.removeAtIndex(i)
+            CustomizableActionSheet.actionSheets.remove(at: i)
             break
           }
         }
@@ -229,7 +229,7 @@ public class CustomizableActionSheet: NSObject {
     self.dismiss()
   }
 
-  @objc private func buttonWasTapped(sender: AnyObject) {
+  @objc private func buttonWasTapped(_ sender: AnyObject) {
     guard let items = self.items else {
       return
     }
@@ -240,7 +240,7 @@ public class CustomizableActionSheet: NSObject {
           continue
       }
       if element == gestureRecognizer.view {
-        item.selectAction?(actoinSheet: self)
+        item.selectAction?(self)
       }
     }
   }
