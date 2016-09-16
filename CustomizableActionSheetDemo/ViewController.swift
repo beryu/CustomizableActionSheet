@@ -22,14 +22,14 @@ class ViewController: UIViewController {
     // Dispose of any resources that can be recreated.
   }
   
-  @IBAction func buttonShowWasTapped(sender: AnyObject) {
+  @IBAction func buttonShowWasTapped() {
     var items = [CustomizableActionSheetItem]()
     
     // First view
-    if let sampleView = UINib(nibName: "SampleView", bundle: nil).instantiateWithOwner(self, options: nil)[0] as? SampleView {
+    if let sampleView = UINib(nibName: "SampleView", bundle: nil).instantiate(withOwner: self, options: nil)[0] as? SampleView {
       sampleView.delegate = self
       let sampleViewItem = CustomizableActionSheetItem()
-      sampleViewItem.type = .View
+      sampleViewItem.type = .view
       sampleViewItem.view = sampleView
       sampleViewItem.height = 100
       items.append(sampleViewItem)
@@ -37,19 +37,19 @@ class ViewController: UIViewController {
     
     // Second button
     let clearItem = CustomizableActionSheetItem()
-    clearItem.type = .Button
+    clearItem.type = .button
     clearItem.label = "Clear color"
     clearItem.backgroundColor = UIColor(red: 1, green: 0.41, blue: 0.38, alpha: 1)
-    clearItem.textColor = UIColor.whiteColor()
+    clearItem.textColor = UIColor.white
     clearItem.selectAction = { (actionSheet: CustomizableActionSheet) -> Void in
-      self.view.backgroundColor = UIColor.whiteColor()
+      self.view.backgroundColor = UIColor.white
       actionSheet.dismiss()
     }
     items.append(clearItem)
 
     // Third button
     let closeItem = CustomizableActionSheetItem()
-    closeItem.type = .Button
+    closeItem.type = .button
     closeItem.label = "Close"
     closeItem.textColor = UIColor(red: 0.4, green: 0.4, blue: 0.4, alpha: 1)
     closeItem.selectAction = { (actionSheet: CustomizableActionSheet) -> Void in
