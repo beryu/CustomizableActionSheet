@@ -58,6 +58,7 @@ class ViewController: UIViewController {
     items.append(closeItem)
     
     let actionSheet = CustomizableActionSheet()
+    actionSheet.cornerRadius = 12
     self.actionSheet = actionSheet
     actionSheet.showInView(self.view, items: items)
   }
