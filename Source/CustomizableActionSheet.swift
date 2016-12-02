@@ -81,7 +81,6 @@ public class CustomizableActionSheet: NSObject {
   // MARK: - Private properties
 
   private static var actionSheets = [CustomizableActionSheet]()
-  private static let kCornerRadius: CGFloat = 4
   private static let kMarginSide: CGFloat = 8
   private static let kMarginBottom: CGFloat = 8
   private static let kMarginTop: CGFloat = 20
@@ -91,7 +90,8 @@ public class CustomizableActionSheet: NSObject {
   private var closeBlock: (() -> Void)?
 
   // MARK: - Public properties
-
+  
+  public var cornerRadius: CGFloat = 4
   public func showInView(_ targetView: UIView, items: [CustomizableActionSheetItem], closeBlock: (() -> Void)? = nil) {
     // Save instance to reaction until closing this sheet
     CustomizableActionSheet.actionSheets.append(self)
@@ -137,7 +137,7 @@ public class CustomizableActionSheet: NSObject {
       switch (item.type) {
       case .button:
         let button = UIButton()
-        button.layer.cornerRadius = CustomizableActionSheet.kCornerRadius
+        button.layer.cornerRadius = cornerRadius
         button.frame = CGRect(
           x: CustomizableActionSheet.kMarginSide,
           y: currentPosition,
@@ -162,7 +162,7 @@ public class CustomizableActionSheet: NSObject {
             y: currentPosition,
             width: screenBounds.width - (CustomizableActionSheet.kMarginSide * 2),
             height: item.height))
-          containerView.layer.cornerRadius = CustomizableActionSheet.kCornerRadius
+          containerView.layer.cornerRadius = cornerRadius
           containerView.addSubview(view)
           view.frame = view.bounds
           self.itemContainerView.addSubview(containerView)
