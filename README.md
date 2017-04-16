@@ -20,7 +20,7 @@ Action sheet allows including your custom views and buttons.
 
 2. Run `pod install`
 
-####Carthage
+#### Carthage
 
 1. Edit your Cartfile:
 
