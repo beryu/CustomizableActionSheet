@@ -18,7 +18,7 @@ public class CustomizableActionSheetItem: NSObject {
 
   // MARK: - Public properties
   public var type: CustomizableActionSheetItemType = .button
-  public var height: CGFloat = 44
+  public var height: CGFloat = CustomizableActionSheetItem.kDefaultHeight
 
   // type = .View
   public var view: UIView?
@@ -32,8 +32,10 @@ public class CustomizableActionSheetItem: NSObject {
 
   // MARK: - Private properties
   fileprivate var element: UIView? = nil
+  static private let kDefaultHeight: CGFloat = 44
 
-  convenience init(type: CustomizableActionSheetItemType, height: CGFloat) {
+  public convenience init(type: CustomizableActionSheetItemType,
+                          height: CGFloat = CustomizableActionSheetItem.kDefaultHeight) {
     self.init()
 
     self.type = type
@@ -96,7 +98,7 @@ public class CustomizableActionSheet: NSObject {
     // Save instance to reaction until closing this sheet
     CustomizableActionSheet.actionSheets.append(self)
 
-    let screenBounds = UIScreen.main.bounds
+    let targetBounds = targetView.bounds
 
     // Save closeBlock
     self.closeBlock = closeBlock
@@ -104,7 +106,7 @@ public class CustomizableActionSheet: NSObject {
     // mask view
     let maskViewTapGesture = UITapGestureRecognizer(target: self, action: #selector(CustomizableActionSheet.maskViewWasTapped))
     self.maskView.addGestureRecognizer(maskViewTapGesture)
-    self.maskView.frame = screenBounds
+    self.maskView.frame = targetBounds
     self.maskView.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.5)
     targetView.addSubview(self.maskView)
 
@@ -113,7 +115,7 @@ public class CustomizableActionSheet: NSObject {
       subview.removeFromSuperview()
     }
     var currentPosition: CGFloat = 0
-    var availableHeight = screenBounds.height - CustomizableActionSheet.kMarginTop
+    var availableHeight = targetBounds.height - CustomizableActionSheet.kMarginTop
 
     // Calculate height of items
     for item in items {
@@ -141,7 +143,7 @@ public class CustomizableActionSheet: NSObject {
         button.frame = CGRect(
           x: CustomizableActionSheet.kMarginSide,
           y: currentPosition,
-          width: screenBounds.width - (CustomizableActionSheet.kMarginSide * 2),
+          width: targetBounds.width - (CustomizableActionSheet.kMarginSide * 2),
           height: item.height)
         button.setTitle(item.label, for: UIControlState())
         button.backgroundColor = item.backgroundColor
@@ -160,7 +162,7 @@ public class CustomizableActionSheet: NSObject {
           let containerView = ActionSheetItemView(frame: CGRect(
             x: CustomizableActionSheet.kMarginSide,
             y: currentPosition,
-            width: screenBounds.width - (CustomizableActionSheet.kMarginSide * 2),
+            width: targetBounds.width - (CustomizableActionSheet.kMarginSide * 2),
             height: item.height))
           containerView.layer.cornerRadius = CustomizableActionSheet.kCornerRadius
           containerView.addSubview(view)
@@ -173,15 +175,15 @@ public class CustomizableActionSheet: NSObject {
     }
     self.itemContainerView.frame = CGRect(
       x: 0,
-      y: screenBounds.height - currentPosition,
-      width: screenBounds.width,
+      y: targetBounds.height - currentPosition,
+      width: targetBounds.width,
       height: currentPosition)
     self.items = items
 
     // Show animation
     self.maskView.alpha = 0
     targetView.addSubview(self.itemContainerView)
-    let moveY = screenBounds.height - self.itemContainerView.frame.origin.y
+    let moveY = targetBounds.height - self.itemContainerView.frame.origin.y
     self.itemContainerView.transform = CGAffineTransform(translationX: 0, y: moveY)
     UIView.animate(withDuration: 0.4,
       delay: 0,
@@ -195,9 +197,13 @@ public class CustomizableActionSheet: NSObject {
   }
 
   public func dismiss() {
+    guard let targetView = self.itemContainerView.superview else {
+        return
+    }
+
     // Hide animation
     self.maskView.alpha = 1
-    let moveY = UIScreen.main.bounds.height - self.itemContainerView.frame.origin.y
+    let moveY = targetView.bounds.height - self.itemContainerView.frame.origin.y
     UIView.animate(withDuration: 0.2,
       delay: 0,
       usingSpringWithDamping: 1,
