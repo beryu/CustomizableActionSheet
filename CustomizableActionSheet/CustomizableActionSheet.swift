@@ -18,7 +18,7 @@ public class CustomizableActionSheetItem: NSObject {
 
   // MARK: - Public properties
   public var type: CustomizableActionSheetItemType = .button
-  public var height: CGFloat = 44
+  public var height: CGFloat = CustomizableActionSheetItem.kDefaultHeight
 
   // type = .View
   public var view: UIView?
@@ -32,8 +32,10 @@ public class CustomizableActionSheetItem: NSObject {
 
   // MARK: - Private properties
   fileprivate var element: UIView? = nil
+  static private let kDefaultHeight: CGFloat = 44
 
-  convenience init(type: CustomizableActionSheetItemType, height: CGFloat) {
+  public convenience init(type: CustomizableActionSheetItemType,
+                          height: CGFloat = CustomizableActionSheetItem.kDefaultHeight) {
     self.init()
 
     self.type = type
