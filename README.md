@@ -71,7 +71,7 @@ import CustomizableActionSheet
 ```
 
 ## Requirements
-* Swift3.0
+* Swift4.0
 * iOS 8.0
 * ARC
 
