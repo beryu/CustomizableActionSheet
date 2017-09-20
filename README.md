@@ -20,7 +20,7 @@ Action sheet allows including your custom views and buttons.
 
 2. Run `pod install`
 
-####Carthage
+#### Carthage
 
 1. Edit your Cartfile:
 
@@ -44,7 +44,7 @@ var items = [CustomizableActionSheetItem]()
 // Setup custom view
 if let sampleView = UINib(nibName: "SampleView", bundle: nil).instantiateWithOwner(self, options: nil)[0] as? SampleView {
   let sampleViewItem = CustomizableActionSheetItem()
-  sampleViewItem.type = .View
+  sampleViewItem.type = .view
   sampleViewItem.view = sampleView
   sampleViewItem.height = 100
   items.append(sampleViewItem)
@@ -52,7 +52,7 @@ if let sampleView = UINib(nibName: "SampleView", bundle: nil).instantiateWithOwn
 
 // Setup button
 let closeItem = CustomizableActionSheetItem()
-closeItem.type = .Button
+closeItem.type = .button
 closeItem.label = "Close"
 closeItem.selectAction = { (actionSheet: CustomizableActionSheet) -> Void in
   actionSheet.dismiss()
@@ -71,7 +71,7 @@ import CustomizableActionSheet
 ```
 
 ## Requirements
-* Swift3.0
+* Swift4.0
 * iOS 8.0
 * ARC
 

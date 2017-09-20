@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name = "CustomizableActionSheet"
-  s.version = "1.0.6"
+  s.version = "1.0.9"
   s.summary = "Action sheet allows including your custom views and buttons."
   s.homepage = "https://github.com/beryu/CustomizableActionSheet"
   s.screenshots = "https://github.com/beryu/CustomizableActionSheet/raw/master/assets/screenshot1.png"
@@ -12,8 +12,5 @@ Pod::Spec.new do |s|
   s.source = { :git => "https://github.com/beryu/CustomizableActionSheet.git", :tag => s.version }
   s.source_files = "Source/*"
   s.requires_arc = true
-  s.xcconfig = {
-    'SWIFT_VERSION' => '3.0'
-  }
 end
 
