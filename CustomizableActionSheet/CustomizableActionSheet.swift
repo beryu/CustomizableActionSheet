@@ -85,7 +85,7 @@ public class CustomizableActionSheet: NSObject {
   private static var actionSheets = [CustomizableActionSheet]()
   private static let kCornerRadius: CGFloat = 4
   private static let kMarginSide: CGFloat = 8
-  private static let kMarginBottom: CGFloat = 8
+  private static let kItemInterval: CGFloat = 8
   private static let kMarginTop: CGFloat = 20
   private var items: [CustomizableActionSheetItem]?
   private let maskView = UIView()
@@ -115,11 +115,20 @@ public class CustomizableActionSheet: NSObject {
       subview.removeFromSuperview()
     }
     var currentPosition: CGFloat = 0
-    var availableHeight = targetBounds.height - CustomizableActionSheet.kMarginTop
+    let safeAreaTop: CGFloat
+    let safeAreaBottom: CGFloat
+    if #available(iOS 11.0, *) {
+        safeAreaTop = targetView.safeAreaInsets.top
+        safeAreaBottom = targetView.safeAreaInsets.bottom
+    } else {
+        safeAreaTop = CustomizableActionSheet.kMarginTop
+        safeAreaBottom = 0
+    }
+    var availableHeight = targetBounds.height - safeAreaTop - safeAreaBottom
 
     // Calculate height of items
     for item in items {
-      availableHeight = availableHeight - item.height - CustomizableActionSheet.kMarginBottom
+      availableHeight = availableHeight - item.height - CustomizableActionSheet.kItemInterval
     }
 
     for item in items {
@@ -130,7 +139,7 @@ public class CustomizableActionSheet: NSObject {
         availableHeight += reduceNum
 
         if item.height <= 0 {
-          availableHeight += CustomizableActionSheet.kMarginBottom
+          availableHeight += CustomizableActionSheet.kItemInterval
           continue
         }
       }
@@ -156,7 +165,7 @@ public class CustomizableActionSheet: NSObject {
         }
         item.element = button
         self.itemContainerView.addSubview(button)
-        currentPosition = currentPosition + item.height + CustomizableActionSheet.kMarginBottom
+        currentPosition = currentPosition + item.height + CustomizableActionSheet.kItemInterval
       case .view:
         if let view = item.view {
           let containerView = ActionSheetItemView(frame: CGRect(
@@ -169,13 +178,13 @@ public class CustomizableActionSheet: NSObject {
           view.frame = view.bounds
           self.itemContainerView.addSubview(containerView)
           item.element = view
-          currentPosition = currentPosition + item.height + CustomizableActionSheet.kMarginBottom
+          currentPosition = currentPosition + item.height + CustomizableActionSheet.kItemInterval
         }
       }
     }
     self.itemContainerView.frame = CGRect(
       x: 0,
-      y: targetBounds.height - currentPosition,
+      y: targetBounds.height - currentPosition - safeAreaBottom,
       width: targetBounds.width,
       height: currentPosition)
     self.items = items
