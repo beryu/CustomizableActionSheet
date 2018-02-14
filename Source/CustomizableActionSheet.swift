@@ -17,29 +17,67 @@ import UIKit
 public class CustomizableActionSheetItem: NSObject {
 
   // MARK: - Public properties
-  public var type: CustomizableActionSheetItemType = .button
-  public var height: CGFloat = CustomizableActionSheetItem.kDefaultHeight
-  public static let kDefaultHeight: CGFloat = 44
+  @objc public var type: CustomizableActionSheetItemType = .button
+  @objc public var height: CGFloat = CustomizableActionSheetItem.kDefaultHeight
+  @objc public static let kDefaultHeight: CGFloat = 44
 
+  // Static default font that will be applied if local var font is nil 
+  @objc public static var defaultFont:UIFont? = nil
+  
+  @objc public var font: UIFont? = nil
+  
   // type = .View
-  public var view: UIView?
+  @objc public var view: UIView?
 
   // type = .Button
-  public var label: String?
-  public var textColor: UIColor = UIColor(red: 0, green: 0.47, blue: 1.0, alpha: 1.0)
-  public var backgroundColor: UIColor = UIColor.white
-  public var font: UIFont? = nil
-  public var selectAction: ((_ actionSheet: CustomizableActionSheet) -> Void)? = nil
-
+  @objc public var label: String?
+  @objc public var textColor: UIColor = UIColor(red: 0, green: 0.47, blue: 1.0, alpha: 1.0)
+  
+  @objc public var backgroundColor: UIColor {
+    set(color) {
+      _backgroundColor = color
+      
+      if let highlightColor = color.darkerColor() {
+        backgroundHighlightColor = highlightColor
+      } 
+    }
+    get {
+      return _backgroundColor
+    }
+  }
+  
+  @objc public var selectAction: ((_ actionSheet: CustomizableActionSheet) -> Void)? = nil
+  
   // MARK: - Private properties
   fileprivate var element: UIView? = nil
-
+  fileprivate var observedButton:UIButton? = nil
+  
+  private var _backgroundColor: UIColor       = UIColor.white
+  private var backgroundHighlightColor: UIColor   = UIColor.white.darkerColor()!
+  
+  @objc
   public convenience init(type: CustomizableActionSheetItemType,
                           height: CGFloat = CustomizableActionSheetItem.kDefaultHeight) {
     self.init()
 
     self.type = type
     self.height = height
+  }
+  
+  @objc
+  public convenience init(type: CustomizableActionSheetItemType) {
+    self.init()
+    
+    self.type = type
+    self.height = CustomizableActionSheetItem.kDefaultHeight
+  }
+  
+  public override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+    
+    // Perform background color changes when highlight state change is observed
+    if keyPath == "highlighted", object as? UIButton === observedButton {
+      observedButton!.backgroundColor = observedButton!.isHighlighted ? self.backgroundHighlightColor : self.backgroundColor
+    }
   }
 }
 
@@ -84,7 +122,6 @@ public class CustomizableActionSheet: NSObject {
 
   private static var actionSheets = [CustomizableActionSheet]()
   private static let kMarginSide: CGFloat = 8
-  private static let kItemInterval: CGFloat = 8
   private static let kMarginTop: CGFloat = 20
   private var items: [CustomizableActionSheetItem]?
   private let maskView = UIView()
@@ -93,7 +130,10 @@ public class CustomizableActionSheet: NSObject {
 
   // MARK: - Public properties
 
-  public var defaultCornerRadius: CGFloat = 4
+  @objc public var defaultCornerRadius: CGFloat = 4
+  @objc public var itemInterval: CGFloat = 8 // vertical distance between objects
+  
+  @objc 
   public func showInView(_ targetView: UIView, items: [CustomizableActionSheetItem], closeBlock: (() -> Void)? = nil) {
     // Save instance to reaction until closing this sheet
     CustomizableActionSheet.actionSheets.append(self)
@@ -128,7 +168,7 @@ public class CustomizableActionSheet: NSObject {
 
     // Calculate height of items
     for item in items {
-      availableHeight = availableHeight - item.height - CustomizableActionSheet.kItemInterval
+      availableHeight = availableHeight - item.height - self.itemInterval
     }
 
     for item in items {
@@ -139,7 +179,7 @@ public class CustomizableActionSheet: NSObject {
         availableHeight += reduceNum
 
         if item.height <= 0 {
-          availableHeight += CustomizableActionSheet.kItemInterval
+          availableHeight += self.itemInterval
           continue
         }
       }
@@ -155,9 +195,14 @@ public class CustomizableActionSheet: NSObject {
           width: targetBounds.width - (CustomizableActionSheet.kMarginSide * 2),
           height: item.height)
         button.setTitle(item.label, for: UIControlState())
-        button.backgroundColor = item.backgroundColor
         button.setTitleColor(item.textColor, for: UIControlState())
-        if let font = item.font {
+
+        // background color set, plus enable highlight observing
+        button.backgroundColor = item.backgroundColor
+        button.addObserver(item, forKeyPath: "highlighted", options: [.new], context: nil)
+        item.observedButton = button
+        
+        if let font = item.font ?? CustomizableActionSheetItem.defaultFont {
           button.titleLabel?.font = font
         }
         if let _ = item.selectAction {
@@ -165,7 +210,7 @@ public class CustomizableActionSheet: NSObject {
         }
         item.element = button
         self.itemContainerView.addSubview(button)
-        currentPosition = currentPosition + item.height + CustomizableActionSheet.kItemInterval
+        currentPosition = currentPosition + item.height + self.itemInterval
       case .view:
         if let view = item.view {
           let containerView = ActionSheetItemView(frame: CGRect(
@@ -178,7 +223,7 @@ public class CustomizableActionSheet: NSObject {
           view.frame = view.bounds
           self.itemContainerView.addSubview(containerView)
           item.element = view
-          currentPosition = currentPosition + item.height + CustomizableActionSheet.kItemInterval
+          currentPosition = currentPosition + item.height + self.itemInterval
         }
       }
     }
@@ -205,6 +250,7 @@ public class CustomizableActionSheet: NSObject {
       }, completion: nil)
   }
 
+  @objc 
   public func dismiss() {
     guard let targetView = self.itemContainerView.superview else {
         return
@@ -234,6 +280,14 @@ public class CustomizableActionSheet: NSObject {
           }
         }
 
+        // be sure to remove observers for highlight effects on buttons
+        if let items = self.items {
+          for item in items {
+            item.observedButton?.removeObserver(item, forKeyPath: "highlighted")
+            item.observedButton = nil
+          }
+        }
+      
         self.closeBlock?()
     }
   }
@@ -260,3 +314,30 @@ public class CustomizableActionSheet: NSObject {
     }
   }
 }
+
+
+// MARK: - UIColor extension - Darken
+
+// Helpful extension to provide a darker shade of the receiver color. Allows dynamic shading of UIButtons during highlighting.
+extension UIColor {
+  
+  /**
+   * Return a darker shade of the same hue. 
+   * @param shadeFactor set in bounds [0.0, 1.0]. Lower value = darker, default = 0.85
+   */
+  func darkerColor(shadeFactor: CGFloat = 0.85) -> UIColor? {
+    var retVal: UIColor? = nil
+    
+    var h: CGFloat = 0.0
+    var s: CGFloat = 0.0 
+    var b: CGFloat = 0.0 
+    var a: CGFloat = 0.0
+    
+    if self.getHue(&h, saturation: &s, brightness: &b, alpha: &a) {
+      retVal = UIColor.init(hue: h, saturation: s, brightness: b * min(shadeFactor, 1.0), alpha: a)
+    }
+    
+    return retVal
+  }
+}
+
