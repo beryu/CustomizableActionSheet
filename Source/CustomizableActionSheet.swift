@@ -78,6 +78,11 @@ private class ActionSheetItemView: UIView {
   }
 }
 
+@objc public enum CustomizableActionSheetPosition: Int {
+  case bottom
+  case top
+}
+
 public class CustomizableActionSheet: NSObject {
 
   // MARK: - Private properties
@@ -94,6 +99,7 @@ public class CustomizableActionSheet: NSObject {
   // MARK: - Public properties
 
   public var defaultCornerRadius: CGFloat = 4
+  public var position: CustomizableActionSheetPosition = .bottom
   public func showInView(_ targetView: UIView, items: [CustomizableActionSheetItem], closeBlock: (() -> Void)? = nil) {
     // Save instance to reaction until closing this sheet
     CustomizableActionSheet.actionSheets.append(self)
@@ -182,9 +188,19 @@ public class CustomizableActionSheet: NSObject {
         }
       }
     }
+    let positionX: CGFloat = 0
+    let positionY: CGFloat!
+    let moveY: CGFloat!
+    if self.position == .bottom {
+      positionY = targetBounds.height - currentPosition - safeAreaBottom
+      moveY = positionY
+    } else {
+      positionY = CustomizableActionSheet.kItemInterval
+      moveY = -currentPosition
+    }
     self.itemContainerView.frame = CGRect(
-      x: 0,
-      y: targetBounds.height - currentPosition - safeAreaBottom,
+      x: positionX,
+      y: positionY,
       width: targetBounds.width,
       height: currentPosition)
     self.items = items
@@ -192,7 +208,6 @@ public class CustomizableActionSheet: NSObject {
     // Show animation
     self.maskView.alpha = 0
     targetView.addSubview(self.itemContainerView)
-    let moveY = targetBounds.height - self.itemContainerView.frame.origin.y
     self.itemContainerView.transform = CGAffineTransform(translationX: 0, y: moveY)
     UIView.animate(withDuration: 0.4,
       delay: 0,
@@ -212,7 +227,12 @@ public class CustomizableActionSheet: NSObject {
 
     // Hide animation
     self.maskView.alpha = 1
-    let moveY = targetView.bounds.height - self.itemContainerView.frame.origin.y
+    let moveY: CGFloat!
+    if self.position == .bottom {
+      moveY = targetView.bounds.height - self.itemContainerView.frame.origin.y
+    } else {
+      moveY = -self.itemContainerView.frame.height
+    }
     UIView.animate(withDuration: 0.2,
       delay: 0,
       usingSpringWithDamping: 1,
