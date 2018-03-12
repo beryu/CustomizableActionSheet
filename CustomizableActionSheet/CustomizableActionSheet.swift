@@ -189,12 +189,9 @@ public class CustomizableActionSheet: NSObject {
       }
     }
     let positionX: CGFloat = 0
-    let positionY: CGFloat!
-    let moveY: CGFloat!
-    if self.position == .bottom {
-      positionY = targetBounds.height - currentPosition - safeAreaBottom
-      moveY = positionY
-    } else {
+    var positionY: CGFloat = targetBounds.height - currentPosition - safeAreaBottom
+    var moveY: CGFloat = positionY
+    if self.position == .top {
       positionY = CustomizableActionSheet.kItemInterval
       moveY = -currentPosition
     }
@@ -227,10 +224,8 @@ public class CustomizableActionSheet: NSObject {
 
     // Hide animation
     self.maskView.alpha = 1
-    let moveY: CGFloat!
-    if self.position == .bottom {
-      moveY = targetView.bounds.height - self.itemContainerView.frame.origin.y
-    } else {
+    var moveY: CGFloat = targetView.bounds.height - self.itemContainerView.frame.origin.y
+    if self.position == .top {
       moveY = -self.itemContainerView.frame.height
     }
     UIView.animate(withDuration: 0.2,
