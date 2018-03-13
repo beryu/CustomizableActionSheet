@@ -64,6 +64,12 @@ let actionSheet = CustomizableActionSheet()
 actionSheet.showInView(self.view, items: items)
 ```
 
+You can change the positioning of the action sheet from the bottom to the top of the view as follows:
+
+```swift
+actionSheet.position = .top
+```
+
 NOTE: If you have installed via CocoaPods, please import `CustomizableActionSheet` like below.
 
 ```swift
