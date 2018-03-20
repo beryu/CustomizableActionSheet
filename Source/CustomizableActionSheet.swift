@@ -124,11 +124,11 @@ public class CustomizableActionSheet: NSObject {
     let safeAreaTop: CGFloat
     let safeAreaBottom: CGFloat
     if #available(iOS 11.0, *) {
-        safeAreaTop = targetView.safeAreaInsets.top
-        safeAreaBottom = targetView.safeAreaInsets.bottom
+      safeAreaTop = targetView.safeAreaInsets.top
+      safeAreaBottom = targetView.safeAreaInsets.bottom
     } else {
-        safeAreaTop = CustomizableActionSheet.kMarginTop
-        safeAreaBottom = 0
+      safeAreaTop = CustomizableActionSheet.kMarginTop
+      safeAreaBottom = 0
     }
     var availableHeight = targetBounds.height - safeAreaTop - safeAreaBottom
 
