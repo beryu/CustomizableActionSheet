@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name = "CustomizableActionSheet"
-  s.version = "1.1.0"
+  s.version = "1.2.0"
   s.summary = "Action sheet allows including your custom views and buttons."
   s.homepage = "https://github.com/beryu/CustomizableActionSheet"
   s.screenshots = "https://github.com/beryu/CustomizableActionSheet/raw/master/assets/screenshot1.png"
