@@ -17,54 +17,44 @@ import UIKit
 public class CustomizableActionSheetItem: NSObject {
 
   // MARK: - Public properties
-  @objc public var type: CustomizableActionSheetItemType = .button
-  @objc public var height: CGFloat = CustomizableActionSheetItem.kDefaultHeight
-  @objc public static let kDefaultHeight: CGFloat = 44
-
-  // Static default font that will be applied if local var font is nil 
-  @objc public static var defaultFont:UIFont? = nil
+  public var type: CustomizableActionSheetItemType = .button
+  public var height: CGFloat = CustomizableActionSheetItem.kDefaultHeight
+  public static let kDefaultHeight: CGFloat = 44
   
-  @objc public var font: UIFont? = nil
-  
+  public var font: UIFont? = nil
+  public var upperMargin: CGFloat = 0 // Add extra margin above the item (adds to CustomizableActionSheet.itemInterval)
+    
   // type = .View
-  @objc public var view: UIView?
+  public var view: UIView?
 
   // type = .Button
-  @objc public var label: String?
-  @objc public var textColor: UIColor = UIColor(red: 0, green: 0.47, blue: 1.0, alpha: 1.0)
+  public var label: String?
+  public var textColor: UIColor = UIColor(red: 0, green: 0.47, blue: 1.0, alpha: 1.0)
+  public var selectAction: ((_ actionSheet: CustomizableActionSheet) -> Void)? = nil
   
-  @objc public var backgroundColor: UIColor {
-    set(color) {
-      _backgroundColor = color
-      
-      if let highlightColor = color.darkerColor() {
-        backgroundHighlightColor = highlightColor
-      } 
-    }
-    get {
-      return _backgroundColor
+  // setting background color also selects a highlight color (on touch)
+  public var backgroundColor: UIColor = UIColor.white {
+    didSet {
+      if let highlight = self.backgroundColor.darkerColor() {
+        self.backgroundHighlightColor = highlight
+      }
     }
   }
   
-  @objc public var selectAction: ((_ actionSheet: CustomizableActionSheet) -> Void)? = nil
   
   // MARK: - Private properties
   fileprivate var element: UIView? = nil
   fileprivate var observedButton:UIButton? = nil
+  fileprivate var backgroundHighlightColor: UIColor? = UIColor.white.darkerColor()
   
-  private var _backgroundColor: UIColor       = UIColor.white
-  private var backgroundHighlightColor: UIColor   = UIColor.white.darkerColor()!
-  
-  @objc
   public convenience init(type: CustomizableActionSheetItemType,
                           height: CGFloat = CustomizableActionSheetItem.kDefaultHeight) {
     self.init()
-
+    
     self.type = type
     self.height = height
   }
   
-  @objc
   public convenience init(type: CustomizableActionSheetItemType) {
     self.init()
     
@@ -75,8 +65,12 @@ public class CustomizableActionSheetItem: NSObject {
   public override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
     
     // Perform background color changes when highlight state change is observed
-    if keyPath == "highlighted", object as? UIButton === observedButton {
-      observedButton!.backgroundColor = observedButton!.isHighlighted ? self.backgroundHighlightColor : self.backgroundColor
+    if keyPath == "highlighted", let tappedButton = object as? UIButton, tappedButton === self.observedButton {
+      if tappedButton.isHighlighted {
+        self.observedButton!.backgroundColor = self.backgroundHighlightColor ?? self.backgroundColor
+      } else {
+        self.observedButton!.backgroundColor = self.backgroundColor
+      }
     }
   }
 }
@@ -116,6 +110,11 @@ private class ActionSheetItemView: UIView {
   }
 }
 
+@objc public enum CustomizableActionSheetPosition: Int {
+  case bottom
+  case top
+}
+
 public class CustomizableActionSheet: NSObject {
 
   // MARK: - Private properties
@@ -130,10 +129,11 @@ public class CustomizableActionSheet: NSObject {
 
   // MARK: - Public properties
 
-  @objc public var defaultCornerRadius: CGFloat = 4
-  @objc public var itemInterval: CGFloat = 8 // vertical distance between objects
+  public var itemInterval: CGFloat = 8 // vertical distance between objects
   
-  @objc 
+  public var defaultCornerRadius: CGFloat = 4
+  public var position: CustomizableActionSheetPosition = .bottom
+
   public func showInView(_ targetView: UIView, items: [CustomizableActionSheetItem], closeBlock: (() -> Void)? = nil) {
     // Save instance to reaction until closing this sheet
     CustomizableActionSheet.actionSheets.append(self)
@@ -158,17 +158,17 @@ public class CustomizableActionSheet: NSObject {
     let safeAreaTop: CGFloat
     let safeAreaBottom: CGFloat
     if #available(iOS 11.0, *) {
-        safeAreaTop = targetView.safeAreaInsets.top
-        safeAreaBottom = targetView.safeAreaInsets.bottom
+      safeAreaTop = targetView.safeAreaInsets.top
+      safeAreaBottom = targetView.safeAreaInsets.bottom
     } else {
-        safeAreaTop = CustomizableActionSheet.kMarginTop
-        safeAreaBottom = 0
+      safeAreaTop = CustomizableActionSheet.kMarginTop
+      safeAreaBottom = 0
     }
     var availableHeight = targetBounds.height - safeAreaTop - safeAreaBottom
 
     // Calculate height of items
     for item in items {
-      availableHeight = availableHeight - item.height - self.itemInterval
+      availableHeight = availableHeight - item.height - self.itemInterval - item.upperMargin
     }
 
     for item in items {
@@ -191,7 +191,7 @@ public class CustomizableActionSheet: NSObject {
         button.layer.cornerRadius = defaultCornerRadius
         button.frame = CGRect(
           x: CustomizableActionSheet.kMarginSide,
-          y: currentPosition,
+          y: currentPosition + item.upperMargin,
           width: targetBounds.width - (CustomizableActionSheet.kMarginSide * 2),
           height: item.height)
         button.setTitle(item.label, for: UIControlState())
@@ -202,7 +202,7 @@ public class CustomizableActionSheet: NSObject {
         button.addObserver(item, forKeyPath: "highlighted", options: [.new], context: nil)
         item.observedButton = button
         
-        if let font = item.font ?? CustomizableActionSheetItem.defaultFont {
+        if let font = item.font {
           button.titleLabel?.font = font
         }
         if let _ = item.selectAction {
@@ -210,12 +210,12 @@ public class CustomizableActionSheet: NSObject {
         }
         item.element = button
         self.itemContainerView.addSubview(button)
-        currentPosition = currentPosition + item.height + self.itemInterval
+        currentPosition = currentPosition + item.height + self.itemInterval + item.upperMargin
       case .view:
         if let view = item.view {
           let containerView = ActionSheetItemView(frame: CGRect(
             x: CustomizableActionSheet.kMarginSide,
-            y: currentPosition,
+            y: currentPosition + item.upperMargin,
             width: targetBounds.width - (CustomizableActionSheet.kMarginSide * 2),
             height: item.height))
           containerView.layer.cornerRadius = defaultCornerRadius
@@ -223,13 +223,20 @@ public class CustomizableActionSheet: NSObject {
           view.frame = view.bounds
           self.itemContainerView.addSubview(containerView)
           item.element = view
-          currentPosition = currentPosition + item.height + self.itemInterval
+          currentPosition = currentPosition + item.height + self.itemInterval + item.upperMargin
         }
       }
     }
+    let positionX: CGFloat = 0
+    var positionY: CGFloat = targetBounds.height - currentPosition - safeAreaBottom
+    var moveY: CGFloat = positionY
+    if self.position == .top {
+      positionY = self.itemInterval
+      moveY = -currentPosition
+    }
     self.itemContainerView.frame = CGRect(
-      x: 0,
-      y: targetBounds.height - currentPosition - safeAreaBottom,
+      x: positionX,
+      y: positionY,
       width: targetBounds.width,
       height: currentPosition)
     self.items = items
@@ -237,7 +244,6 @@ public class CustomizableActionSheet: NSObject {
     // Show animation
     self.maskView.alpha = 0
     targetView.addSubview(self.itemContainerView)
-    let moveY = targetBounds.height - self.itemContainerView.frame.origin.y
     self.itemContainerView.transform = CGAffineTransform(translationX: 0, y: moveY)
     UIView.animate(withDuration: 0.4,
       delay: 0,
@@ -250,7 +256,6 @@ public class CustomizableActionSheet: NSObject {
       }, completion: nil)
   }
 
-  @objc 
   public func dismiss() {
     guard let targetView = self.itemContainerView.superview else {
         return
@@ -258,7 +263,10 @@ public class CustomizableActionSheet: NSObject {
 
     // Hide animation
     self.maskView.alpha = 1
-    let moveY = targetView.bounds.height - self.itemContainerView.frame.origin.y
+    var moveY: CGFloat = targetView.bounds.height - self.itemContainerView.frame.origin.y
+    if self.position == .top {
+      moveY = -self.itemContainerView.frame.height
+    }
     UIView.animate(withDuration: 0.2,
       delay: 0,
       usingSpringWithDamping: 1,
@@ -319,10 +327,10 @@ public class CustomizableActionSheet: NSObject {
 // MARK: - UIColor extension - Darken
 
 // Helpful extension to provide a darker shade of the receiver color. Allows dynamic shading of UIButtons during highlighting.
-extension UIColor {
+private extension UIColor {
   
   /**
-   * Return a darker shade of the same hue. 
+   * Return a darker shade of the same hue, if possible.
    * @param shadeFactor set in bounds [0.0, 1.0]. Lower value = darker, default = 0.85
    */
   func darkerColor(shadeFactor: CGFloat = 0.85) -> UIColor? {
