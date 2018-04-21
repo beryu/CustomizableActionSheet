@@ -189,7 +189,7 @@ public class CustomizableActionSheet: NSObject {
       }
     }
     let positionX: CGFloat = 0
-    var positionY: CGFloat = targetBounds.height - currentPosition - safeAreaBottom
+    var positionY: CGFloat = targetBounds.minY + targetBounds.height - currentPosition - safeAreaBottom
     var moveY: CGFloat = positionY
     if self.position == .top {
       positionY = CustomizableActionSheet.kItemInterval
