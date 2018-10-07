@@ -160,9 +160,9 @@ public class CustomizableActionSheet: NSObject {
           y: currentPosition,
           width: targetBounds.width - (CustomizableActionSheet.kMarginSide * 2),
           height: item.height)
-        button.setTitle(item.label, for: UIControlState())
+        button.setTitle(item.label, for: UIControl.State())
         button.backgroundColor = item.backgroundColor
-        button.setTitleColor(item.textColor, for: UIControlState())
+        button.setTitleColor(item.textColor, for: UIControl.State())
         if let font = item.font {
           button.titleLabel?.font = font
         }
