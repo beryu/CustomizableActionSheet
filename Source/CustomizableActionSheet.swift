@@ -43,41 +43,6 @@ public class CustomizableActionSheetItem: NSObject {
   }
 }
 
-private class ActionSheetItemView: UIView {
-  var subview: UIView?
-
-  required init(coder aDecoder: NSCoder) {
-    super.init(coder: aDecoder)!
-    self.setting()
-  }
-
-  override init(frame: CGRect) {
-    super.init(frame: frame)
-    self.setting()
-  }
-
-  init() {
-    super.init(frame: CGRect.zero)
-    self.setting()
-  }
-
-  func setting() {
-    self.clipsToBounds = true
-  }
-
-  override func addSubview(_ view: UIView) {
-    super.addSubview(view)
-    self.subview = view
-  }
-
-  override func layoutSubviews() {
-    super.layoutSubviews()
-    if let subview = self.subview {
-      subview.frame = self.bounds
-    }
-  }
-}
-
 @objc public enum CustomizableActionSheetPosition: Int {
   case bottom
   case top
@@ -143,6 +108,9 @@ public class CustomizableActionSheet: NSObject {
       availableHeight = availableHeight - item.height - CustomizableActionSheet.kItemInterval
     }
 
+    // Temporary hold itemContainerView's subviews. Only perform addSubview after itemContainerView's frame is initialized.
+    var subviews = [UIView]()
+    
     for item in items {
       // Apply height of items
       if availableHeight < 0 {
@@ -176,19 +144,18 @@ public class CustomizableActionSheet: NSObject {
           button.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(CustomizableActionSheet.buttonWasTapped(_:))))
         }
         item.element = button
-        self.itemContainerView.addSubview(button)
+        subviews.append(button)
         currentPosition = currentPosition + item.height + CustomizableActionSheet.kItemInterval
       case .view:
         if let view = item.view {
-          let containerView = ActionSheetItemView(frame: CGRect(
+          let frame = CGRect(
             x: CustomizableActionSheet.kMarginSide,
             y: currentPosition,
             width: safeAreaWidth - (CustomizableActionSheet.kMarginSide * 2),
-            height: item.height))
-          containerView.layer.cornerRadius = defaultCornerRadius
-          containerView.addSubview(view)
-          view.frame = view.bounds
-          self.itemContainerView.addSubview(containerView)
+            height: item.height)
+          view.frame = frame
+          view.layer.cornerRadius = defaultCornerRadius
+          subviews.append(view)
           item.element = view
           currentPosition = currentPosition + item.height + CustomizableActionSheet.kItemInterval
         }
@@ -206,6 +173,9 @@ public class CustomizableActionSheet: NSObject {
       y: positionY,
       width: safeAreaWidth,
       height: currentPosition)
+    for subview in subviews {
+      self.itemContainerView.addSubview(subview)
+    }
     self.items = items
 
     // Show animation
