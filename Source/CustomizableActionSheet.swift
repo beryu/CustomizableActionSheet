@@ -121,12 +121,18 @@ public class CustomizableActionSheet: NSObject {
       subview.removeFromSuperview()
     }
     var currentPosition: CGFloat = 0
+    let safeAreaLeft: CGFloat
+    let safeAreaWidth: CGFloat
     let safeAreaTop: CGFloat
     let safeAreaBottom: CGFloat
     if #available(iOS 11.0, *) {
+      safeAreaLeft = targetView.safeAreaInsets.left
+      safeAreaWidth = targetView.safeAreaLayoutGuide.layoutFrame.width
       safeAreaTop = targetView.safeAreaInsets.top
       safeAreaBottom = targetView.safeAreaInsets.bottom
     } else {
+      safeAreaLeft = 0
+      safeAreaWidth = targetBounds.width
       safeAreaTop = CustomizableActionSheet.kMarginTop
       safeAreaBottom = 0
     }
@@ -158,7 +164,7 @@ public class CustomizableActionSheet: NSObject {
         button.frame = CGRect(
           x: CustomizableActionSheet.kMarginSide,
           y: currentPosition,
-          width: targetBounds.width - (CustomizableActionSheet.kMarginSide * 2),
+          width: safeAreaWidth - (CustomizableActionSheet.kMarginSide * 2),
           height: item.height)
         button.setTitle(item.label, for: UIControl.State())
         button.backgroundColor = item.backgroundColor
@@ -177,7 +183,7 @@ public class CustomizableActionSheet: NSObject {
           let containerView = ActionSheetItemView(frame: CGRect(
             x: CustomizableActionSheet.kMarginSide,
             y: currentPosition,
-            width: targetBounds.width - (CustomizableActionSheet.kMarginSide * 2),
+            width: safeAreaWidth - (CustomizableActionSheet.kMarginSide * 2),
             height: item.height))
           containerView.layer.cornerRadius = defaultCornerRadius
           containerView.addSubview(view)
@@ -188,7 +194,7 @@ public class CustomizableActionSheet: NSObject {
         }
       }
     }
-    let positionX: CGFloat = 0
+    let positionX: CGFloat = safeAreaLeft
     var positionY: CGFloat = targetBounds.minY + targetBounds.height - currentPosition - safeAreaBottom
     var moveY: CGFloat = positionY
     if self.position == .top {
@@ -198,7 +204,7 @@ public class CustomizableActionSheet: NSObject {
     self.itemContainerView.frame = CGRect(
       x: positionX,
       y: positionY,
-      width: targetBounds.width,
+      width: safeAreaWidth,
       height: currentPosition)
     self.items = items
 
