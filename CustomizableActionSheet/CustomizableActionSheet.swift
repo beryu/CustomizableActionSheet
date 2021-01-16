@@ -196,11 +196,13 @@ public class CustomizableActionSheet: NSObject {
     }
     let positionX: CGFloat = safeAreaLeft
     var positionY: CGFloat = targetBounds.minY + targetBounds.height - currentPosition - safeAreaBottom
-    var moveY: CGFloat = positionY
+    var moveY: CGFloat = currentPosition
     if self.position == .top {
       positionY = CustomizableActionSheet.kItemInterval
       moveY = -currentPosition
     }
+    // Reset transform from dismiss() if this CustomizableActionSheet is being reused.
+    self.itemContainerView.transform = CGAffineTransform.identity
     self.itemContainerView.frame = CGRect(
       x: positionX,
       y: positionY,
